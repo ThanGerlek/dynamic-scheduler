@@ -13,6 +13,9 @@ class TimeRange:
     def duration(self) -> int:
         return self.end_time - self.start_time
 
+    def describe(self):
+        return f"{self.start_time}-{self.end_time}"
+
 
 class DaysOfWeek:
     def __init__(self, string_value: str):
@@ -33,6 +36,12 @@ class DaysOfWeek:
             if day in other.days:
                 return True
         return False
+
+    def describe(self):
+        out = ""
+        for day in self.days:
+            out += day
+        return out
 
 
 class TimeComparator:

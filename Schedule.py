@@ -14,3 +14,9 @@ class Schedule:
     def clear(self):
         self.sections = []
         self.used_times = []
+
+    def display(self, indent: str = ""):
+        if not self.sections:
+            print("Schedule is currently empty.")
+        for section in self.sections:
+            print(indent + section.describe())

@@ -18,8 +18,17 @@ class Section:
         self.professor = professor
         self.participation_type = participation_type
 
+    def describe(self):
+        return f"{self.course_id} {self.section_id}, {self.daysOfWeek.describe()} {self.time_range.describe()}, {self.professor}"
+
 
 class Course:
     def __init__(self, course_id: str, sections: [Section]):
         self.course_id = course_id
         self.sections = sections
+
+    def describe(self):
+        out = self.course_id + "  [ "
+        for section in self.sections:
+            out += section.section_id + " "
+        return out + "]"
