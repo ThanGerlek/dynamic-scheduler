@@ -6,9 +6,11 @@ class TimeRange:
     def overlaps(self, other) -> bool:
         if not isinstance(other, TimeRange):
             raise Exception("Invalid TimeRange.overlaps() call")
-        # xxx  |  xxx | xxxx |  xx
-        #  xxx | xxx  |  xx  | xxxx
-        return self.start_time < other.start_time < self.end_time or other.start_time < self.start_time < other.end_time
+        # xxx  |  xxx | xxxx |  xx  |  xx  |  xx | xx |  xx
+        #  xxx | xxx  |  xx  | xxxx |  xxx | xxx | xx | xxxx
+        if self.end_time <= other.start_time or self.start_time >= other.end_time:
+            return False
+        return True
 
     def duration(self) -> int:
         return self.end_time - self.start_time
