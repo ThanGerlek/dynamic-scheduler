@@ -10,3 +10,7 @@ class Schedule:
     def add_section(self, section: Section):
         self.sections.append(section)
         self.used_times.append(section.time_range)
+
+    def clear(self):
+        self.sections = []
+        self.used_times = []

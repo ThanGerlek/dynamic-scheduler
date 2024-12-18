@@ -29,7 +29,10 @@ class Preference:
         return Rank(0)
 
     def applies(self, section: Section) -> bool:
-        raise Exception("Tried to call rank() when it has not been implemented")
+        raise Exception("Tried to call Preference.applies() when it has not been implemented")
+
+    def describe(self) -> str:
+        raise Exception("Tried to call Preference.describe() when it has not been implemented")
 
 
 class PreferenceSet:
@@ -43,6 +46,12 @@ class PreferenceSet:
                 new_rank = pref.rank_section(section)
                 rank = rank.compose(new_rank)
         return rank
+
+    def add(self, pref: Preference):
+        self.preferences.append(pref)
+
+    def clear(self):
+        self.preferences = []
 
 
 # Preference subclasses
@@ -60,6 +69,9 @@ class ProfessorPreference(Preference):
     def applies(self, section: Section) -> bool:
         return section.professor == self.professor
 
+    def describe(self) -> str:
+        return f"Professor: {self.professor}, rank: {self.rank.value}"
+
 
 class SectionStartPreference(Preference):
     def __init__(self, rank: Rank, time: int, comparator: TimeComparator):
@@ -70,6 +82,9 @@ class SectionStartPreference(Preference):
     def applies(self, section: Section) -> bool:
         return self.comparator.compare(self.time, section.time_range.start_time)
 
+    def describe(self) -> str:
+        return f"Start time {self.comparator.value} {self.time}, rank: {self.rank.value}"
+
 
 class SectionEndPreference(Preference):
     def __init__(self, rank: Rank, time: int, comparator: TimeComparator):
@@ -79,3 +94,6 @@ class SectionEndPreference(Preference):
 
     def applies(self, section: Section) -> bool:
         return self.comparator.compare(self.time, section.time_range.end_time)
+
+    def describe(self) -> str:
+        return f"End time {self.comparator.value} {self.time}, rank: {self.rank.value}"
